@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+}
+
+model Customer {
+  id        String @id @default(uuid())
+  name      String
+  email     String
+  image_url String
+}
+
+model Invoice {
+  id          String @id @default(uuid())
+  customer_id String
+  amount      Int
+  date        String
+  status      String // In Prisma, enums are not natively supported
+}
+
+model Revenue {
+  month   String @id @default(uuid())
+  revenue Int
+}
+
+// Additional models based on your types
+model LatestInvoice {
+  id        String @id @default(uuid())
+  name      String
+  image_url String
+  email     String
+  amount    String
+}
+
+model LatestInvoiceRaw {
+  id        String @id @default(uuid())
+  name      String
+  image_url String
+  email     String
+  amount    Int
+}
+
+model InvoicesTable {
+  id          String @id @default(uuid())
+  customer_id String
+  name        String
+  email       String
+  image_url   String
+  date        String
+  amount      Int
+  status      String // In Prisma, enums are not natively supported
+}
+
+model CustomersTable {
+  id             String @id @default(uuid())
+  name           String
+  email          String
+  image_url      String
+  total_invoices Int
+  total_pending  Int
+  total_paid     Int
+}
+
+model FormattedCustomersTable {
+  id             String @id @default(uuid())
+  name           String
+  email          String
+  image_url      String
+  total_invoices Int
+  total_pending  String
+  total_paid     String
+}
+
+model CustomerField {
+  id   String @id @default(uuid())
+  name String
+}
+
+model InvoiceForm {
+  id          String @id @default(uuid())
+  customer_id String
+  amount      Int
+  status      String // In Prisma, enums are not natively supported
+}
